@@ -1,14 +1,15 @@
 # USB-AI Technical Documentation
 **Version 1.0.0**
-March 18, 2025
+May 23, 2025
 
 ## Table of Contents
 1. [Executive Summary](#1-executive-summary)
-2. [System Architecture](#2-system-architecture)
-3. [Core Components](#3-core-components)
-4. [Technical Implementation](#4-technical-implementation)
-5. [Development Guide](#5-development-guide)
-6. [Testing & Deployment](#6-testing--deployment)
+2. [Current Model Status](#2-current-model-status)
+3. [System Architecture](#3-system-architecture)
+4. [Core Components](#4-core-components)
+5. [Technical Implementation](#5-technical-implementation)
+6. [Development Guide](#6-development-guide)
+7. [Testing & Deployment](#7-testing--deployment)
 
 ## 1. Executive Summary
 
@@ -20,22 +21,50 @@ USB-AI is a revolutionary offline AI assistant that runs entirely from a USB dri
 - **Privacy-Focused**: No data leaves the device
 - **Portable**: Works on any compatible Windows system (future support for macOS/Linux)
 - **Resource-Efficient**: Sub-second responses on systems with 8GB RAM
-- **Secure**: AES-256 encryption and PIN authentication
+- **Secure**: Advanced authentication and data protection
 
 ### 1.3 Technical Innovation
-1. **Unified AI Model Format (UAMF)**
-   - Standardized format for model files
-   - Efficient storage and loading
-   - Universal compatibility
+1. **Advanced AI Engine (ai_engine2.py)**
+   - Optimized model loading and inference
+   - Mathematical expression evaluation
+   - Context-aware response generation
+   - Memory-efficient operations
 
-2. **Streamlined Model Loader with Predictive Caching (SML-PC)**
-   - Memory-mapped loading
-   - Predictive caching
-   - Optimized streaming
+2. **Multi-Interface Support**
+   - Command Line Interface (CLI)
+   - Graphical User Interface (GUI)
+   - Voice Interface with speech recognition
 
-## 2. System Architecture
+## 2. Current Model Status
 
-### 2.1 High-Level Architecture
+⚠️ **Important Implementation Notice**: As of May 23, 2025, the USB-AI system has varying levels of model support.
+
+### 2.1 Fully Functional Models
+- ✅ **Gemma-3-1B-IT** - Complete implementation and testing
+  - Location: `models/gemma-3-1b-it/`
+  - Status: Production ready
+  - Performance: Optimized for 8GB+ RAM systems
+  - Features: Full conversation, math evaluation, code assistance
+
+### 2.2 Models Under Development
+- 🔧 **TinyLLaMA** - Partial implementation
+  - Location: `models/tinyllama/`
+  - Status: Legacy support, not fully functional
+  - Issues: Model loading and tokenization problems
+
+- 🔧 **DeepSeek-Coder-6.7B** - Early development
+  - Location: `models/deepseek-coder-6.7b-instruct/`
+  - Status: Model files present, integration incomplete
+  - Target: Specialized code generation tasks
+
+### 2.3 Recommended Usage
+**For Production Use**: Only use the **Gemma-3-1B-IT** model until other models are fully implemented and tested.
+
+**Development/Testing**: Other models can be used for development purposes but may produce inconsistent results.
+
+## 3. System Architecture
+
+### 3.1 High-Level Architecture
 ```mermaid
 graph TB
     subgraph "User Interface Layer"
@@ -73,7 +102,7 @@ graph TB
     MC --> SEC
 ```
 
-### 2.2 Component Interaction
+### 3.2 Component Interaction
 ```mermaid
 sequenceDiagram
     participant User
@@ -94,9 +123,9 @@ sequenceDiagram
     CLI-->>User: Ready for Input
 ```
 
-## 3. Core Components
+## 4. Core Components
 
-### 3.1 UAMF Specification
+### 4.1 UAMF Specification
 
 #### Structure
 ```
@@ -132,7 +161,7 @@ models/
 }
 ```
 
-### 3.2 SML-PC System
+### 4.2 SML-PC System
 
 #### Memory Management
 ```mermaid
@@ -160,7 +189,7 @@ graph LR
     C -->|General| F[Load General]
 ```
 
-### 3.3 CLI Interface
+### 4.3 CLI Interface
 
 #### Command Structure
 ```
@@ -174,9 +203,9 @@ usbai
 └── help           # Show help
 ```
 
-## 4. Technical Implementation
+## 5. Technical Implementation
 
-### 4.1 Directory Structure
+### 5.1 Directory Structure
 ```
 E:/USBAI/
 ├── models/                 # Model storage
@@ -192,7 +221,7 @@ E:/USBAI/
 └── config/               # Configuration
 ```
 
-### 4.2 State Management
+### 5.2 State Management
 ```mermaid
 stateDiagram-v2
     [*] --> Initialized
@@ -203,7 +232,7 @@ stateDiagram-v2
     Ready --> [*]: Exit
 ```
 
-### 4.3 Error Handling
+### 5.3 Error Handling
 ```mermaid
 graph TB
     subgraph "Error Handling"
@@ -218,16 +247,16 @@ graph TB
     end
 ```
 
-## 5. Development Guide
+## 6. Development Guide
 
-### 5.1 Setup Instructions
+### 6.1 Setup Instructions
 1. Clone repository
 2. Install dependencies
 3. Configure environment
 4. Run tests
 5. Start development
 
-### 5.2 Development Workflow
+### 6.2 Development Workflow
 ```mermaid
 graph LR
     A[Code] --> B[Test]
@@ -236,22 +265,22 @@ graph LR
     D --> A
 ```
 
-## 6. Testing & Deployment
+## 7. Testing & Deployment
 
-### 6.1 Testing Strategy
+### 7.1 Testing Strategy
 - Unit Tests
 - Integration Tests
 - Performance Tests
 - Security Tests
 
-### 6.2 Deployment Process
+### 7.2 Deployment Process
 1. Build package
 2. Verify integrity
 3. Test installation
 4. Deploy to USB
 5. Verify functionality
 
-### 6.3 Performance Metrics
+### 7.3 Performance Metrics
 - Load time: < 1 second
 - Response time: < 1 second
 - Memory usage: < 8GB
