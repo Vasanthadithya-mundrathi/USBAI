@@ -622,7 +622,7 @@ class USBAIEnhancedGUI:
         token_frame = ttk.LabelFrame(download_window, text="Hugging Face Token (if needed)")
         token_frame.pack(fill=tk.X, padx=10, pady=10)
         
-        token_var = tk.StringVar(value="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")  # Default from memory
+        token_var = tk.StringVar(value="hf token")  # Default from memory
         token_entry = ttk.Entry(token_frame, textvariable=token_var, width=40)
         token_entry.pack(padx=10, pady=10, fill=tk.X)
         
