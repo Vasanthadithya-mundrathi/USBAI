@@ -1,0 +1,2 @@
+if input.contains("code") -> load_model("codegen") -> precision_high
+if input.length < 5 -> use_npc

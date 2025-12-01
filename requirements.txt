@@ -1,0 +1,43 @@
+# Core dependencies
+click>=8.0.0        # CLI framework
+torch>=2.2.0        # PyTorch for model operations
+transformers>=4.37.0 # Hugging Face Transformers
+numpy>=1.24.0       # Numerical operations
+tqdm>=4.65.0        # Progress bars
+
+# Model handling
+tokenizers>=0.15.0  # Tokenizer support
+safetensors>=0.4.0  # Safe tensor operations
+onnx>=1.15.0        # ONNX format support
+onnxruntime>=1.16.0 # ONNX runtime
+
+# Security
+cryptography>=42.0.0 # Encryption support
+bcrypt>=4.0.0       # Password hashing
+
+# Utilities
+psutil>=5.9.0       # System resource monitoring
+requests>=2.31.0    # HTTP requests for model downloading
+pyyaml>=6.0.0       # YAML configuration support
+loguru>=0.7.0       # Enhanced logging
+
+# GUI dependencies
+pillow>=10.0.0      # Image processing for GUI
+sympy>=1.12.0       # Mathematical expression evaluation
+
+# PDF and document generation
+fpdf2>=2.7.6        # PDF generation for codebase documentation (fpdf2 is the modern version)
+pygments>=2.16.1    # Syntax highlighting for code
+markdown>=3.5.1     # Markdown processing
+weasyprint>=60.0    # HTML to PDF conversion
+
+# CLI and terminal enhancements
+colorama>=0.4.6     # Colored terminal output
+
+# Voice interface dependencies
+SpeechRecognition>=3.10.0  # For voice interface (optional)
+pyaudio>=0.2.13     # For voice interface (optional)
+pyttsx3>=2.90       # Text-to-speech for voice interface
+
+# Optional dependencies for better performance
+accelerate>=0.21.0  # Faster model loading and inference
