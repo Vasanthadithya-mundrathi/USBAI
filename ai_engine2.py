@@ -4,6 +4,23 @@ os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 # Set encoding to utf-8 for handling emojis and other Unicode characters
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
+# Configure native BLAS/OpenMP thread environment variables early so
+# that libraries loaded by Python / PyTorch will pick them up.
+# Honor the `USBAI_NUM_THREADS` environment variable if provided.
+env_threads = os.environ.get("USBAI_NUM_THREADS")
+num_cores_for_env = os.cpu_count() or 4
+if env_threads:
+    try:
+        desired_threads_env = int(env_threads)
+    except ValueError:
+        desired_threads_env = num_cores_for_env
+else:
+    desired_threads_env = num_cores_for_env
+
+os.environ.setdefault("OMP_NUM_THREADS", str(desired_threads_env))
+os.environ.setdefault("MKL_NUM_THREADS", str(desired_threads_env))
+os.environ.setdefault("OPENBLAS_NUM_THREADS", str(desired_threads_env))
+
 import sys
 import logging
 import torch
@@ -35,8 +52,21 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='repla
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 # Limit PyTorch threads to avoid CPU overload but allow scaling based on CPU cores
+# Use environment variable `USBAI_NUM_THREADS` to override the default behavior.
 NUM_CORES = os.cpu_count() or 4
-torch.set_num_threads(min(NUM_CORES, 8))  # Cap at 8 threads maximum
+env_threads = os.environ.get("USBAI_NUM_THREADS")
+if env_threads:
+    try:
+        desired_threads = int(env_threads)
+    except ValueError:
+        desired_threads = NUM_CORES
+else:
+    # Default to the machine's logical core count if not specified
+    desired_threads = NUM_CORES
+
+NUM_THREADS = max(1, desired_threads)
+torch.set_num_threads(NUM_THREADS)
+print(f"PyTorch threads configured: {NUM_THREADS} (requested={desired_threads}, cpu_count={NUM_CORES})")
 
 class USBAIEngine:
     def __init__(self, base_path: str = "E:\\USBAI", model_name: str = "gemma-3-1b-it"):
@@ -166,7 +196,7 @@ class USBAIEngine:
         self.cache = {}  # Simple caching mechanism for repeated queries
         self.generation_config = {
             # Default generation parameters, will be overridden based on query type
-            "max_new_tokens": 150,
+            "max_new_tokens": 300,
             "min_length": 5,
             "do_sample": True,  # Balanced approach - some creativity but mostly deterministic
             "temperature": 0.7,
@@ -327,7 +357,7 @@ class USBAIEngine:
             config["temperature"] = None  # Use greedy decoding
             config["top_p"] = None
             config["top_k"] = None
-            config["max_new_tokens"] = 75  # Shorter responses for math
+            config["max_new_tokens"] = 150  # Shorter responses for math
         elif is_factual:
             # For factual questions, reduce randomness but keep some flexibility
             config["do_sample"] = True

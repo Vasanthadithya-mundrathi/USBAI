@@ -61,7 +61,7 @@ class USBAIEngine:
             with torch.no_grad():
                 outputs = self.model.generate(
                     inputs["input_ids"],
-                    max_length=200,
+                    max_length=300,
                     num_return_sequences=1,
                     temperature=0.7,
                     do_sample=True

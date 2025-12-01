@@ -34,8 +34,32 @@ def setup_environment():
     # Set PyTorch threads to avoid CPU overload
     try:
         import torch
-        torch.set_num_threads(4)
-        logging.info(f"PyTorch threads limited to 4")
+        # Allow configuring thread count via environment variable `USBAI_NUM_THREADS`.
+        # If not set, default to the machine's logical CPU count. We no longer
+        # artificially cap the requested value here; the effective number of
+        # threads will ultimately be determined by the OS/PyTorch runtime.
+        num_cores = os.cpu_count() or 4
+        env_threads = os.environ.get("USBAI_NUM_THREADS")
+        if env_threads:
+            try:
+                desired = int(env_threads)
+            except ValueError:
+                desired = num_cores
+        else:
+            desired = num_cores
+
+        num_threads = max(1, desired)
+
+        # Align native BLAS/OpenMP thread environment variables with the requested threads.
+        # Set these before PyTorch spawns internal threads so native libraries respect them.
+        os.environ.setdefault("OMP_NUM_THREADS", str(num_threads))
+        os.environ.setdefault("MKL_NUM_THREADS", str(num_threads))
+        os.environ.setdefault("OPENBLAS_NUM_THREADS", str(num_threads))
+
+        # Now import torch and set the python-level thread count.
+        import torch
+        torch.set_num_threads(num_threads)
+        logging.info(f"PyTorch threads set to {num_threads} (requested={desired}, cpu_count={num_cores})")
     except ImportError:
         logging.warning("PyTorch not found, skipping thread limitation")
 
