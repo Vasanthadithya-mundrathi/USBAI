@@ -18,11 +18,13 @@
 
 ### 🎬 Demo Video
 
-<a href="./demo.mp4">
-  <img src="https://img.shields.io/badge/▶️_Watch_Demo-Click_to_Play-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo"/>
-</a>
+https://github.com/FaisalTabrez/USBAI-test/assets/201222588/demo.mp4
 
-*See USB-AI in action! Click the button above or [download demo.mp4](./demo.mp4) directly.*
+<video src="demo.mp4" controls="controls" style="max-width: 100%;">
+  Your browser does not support the video tag.
+</video>
+
+*See USB-AI in action! [Download demo.mp4](./demo.mp4) if video doesn't play.*
 
 ---
 
@@ -269,7 +271,7 @@ This project is licensed under the MIT License.
 
 ---
 
-### Made with ❤️ by the USB-AI Team
+### Made with ❤️ by **Vasanthadithya Mundrathi** and **Faisal Tabrez**
 
 **⭐ Star this repo if you find it useful!**
 
